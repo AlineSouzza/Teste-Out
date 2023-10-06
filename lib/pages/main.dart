@@ -52,7 +52,6 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
               SliverToBoxAdapter(
                 child: TabBar(
                   controller: _tabController,
-                  labelColor: Colors.redAccent,
                   isScrollable: true,
                   tabs: _listTabBar(),
                 ),
