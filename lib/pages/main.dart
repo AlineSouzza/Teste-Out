@@ -74,8 +74,8 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
             controller: _tabController,
             children: [
               _buildAtividadeScreensTab(),
-              _buildInfoScreensTab(),
-              _buildInfoScreensTab(),
+              _buildAboutScreensTab(),
+              _buildNoticeScreensTab()
             ],
           ),
         ),
@@ -260,7 +260,7 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
     ];
   }
 
-  Widget _buildInfoScreensTab() {
+  Widget _buildAboutScreensTab() {
     return Container(
       margin: const EdgeInsets.all(15),
       child: Column(
@@ -564,5 +564,9 @@ class MyAppState extends State<MyApp> with TickerProviderStateMixin {
 
   Widget _buildAtividadeScreensTab() {
     return const Text("Guia de Atividades selecionada");
+  }
+
+  Widget _buildNoticeScreensTab() {
+    return const Text("Guia de Avisos e Comunicados selecionada");
   }
 }
