@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projects/pages/aboutTab.dart';
 import 'package:projects/pages/editProfile.dart';
 
 void main() => runApp(const MyApp());
@@ -10,10 +11,13 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => MyAppState();
 }
 
-class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
+class MyAppState extends State<MyApp> with TickerProviderStateMixin {
   final bodyGlobalKey = GlobalKey();
   late TabController _tabController;
   late ScrollController _scrollController;
+  String name = "Cidade ADM de MG";
+  String bibliography = "Perfil Oficial da Cidade Administrativa de MG";
+  String location = "Cidade Administrativa";
 
   @override
   void initState() {
@@ -34,9 +38,17 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   _smoothScrollToTop() {
     _scrollController.animateTo(
       0,
-      duration: Duration(microseconds: 300),
+      duration: const Duration(microseconds: 300),
       curve: Curves.ease,
     );
+  }
+
+  void getDataFromEditProfile(EditProfileData editProfileData) {
+    setState(() {
+      name = editProfileData.name;
+      bibliography = editProfileData.bibliography;
+      location = editProfileData.location;
+    });
   }
 
   @override
@@ -61,7 +73,7 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
           body: TabBarView(
             controller: _tabController,
             children: [
-              _buildInfoScreensTab(),
+              _buildAtividadeScreensTab(),
               _buildInfoScreensTab(),
               _buildInfoScreensTab(),
             ],
@@ -119,11 +131,16 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
       alignment: Alignment.centerRight,
       margin: const EdgeInsets.only(right: 7),
       child: OutlinedButton(
-        onPressed: () => {
-          Navigator.push(
+        onPressed: () async => {
+          await Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const EditProfile()),
-          )
+            MaterialPageRoute(
+                builder: (context) => EditProfile(
+                      name: name,
+                      bibliography: bibliography,
+                      location: location,
+                    )),
+          ).then((value) => {getDataFromEditProfile(value)})
         },
         style: ButtonStyle(
           shape: MaterialStateProperty.all(
@@ -143,58 +160,58 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   Widget _buildTextInfo() {
     return Container(
       margin: const EdgeInsets.only(left: 24, top: 10),
-      child: const Column(
+      child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            "Cidade ADM de MG",
-            style: TextStyle(
+            name,
+            style: const TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 22.6,
                 color: Colors.black),
           ),
-          SizedBox(
+          const SizedBox(
             height: 12,
           ),
           Text(
-            "Perfil Oficial da Cidade Administrativa de MG",
-            style: TextStyle(
+            bibliography,
+            style: const TextStyle(
               fontSize: 15,
               color: Colors.black,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 12,
           ),
           Row(
             children: [
-              Icon(
+              const Icon(
                 Icons.location_on_outlined,
                 color: Colors.grey,
                 size: 14,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 8,
               ),
               Text(
-                "Cidade administrativa",
-                style: TextStyle(
+                location,
+                style: const TextStyle(
                   fontSize: 12,
                   color: Colors.grey,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 16,
               ),
-              Icon(
+              const Icon(
                 Icons.calendar_month_outlined,
                 color: Colors.grey,
                 size: 14,
               ),
-              SizedBox(
+              const SizedBox(
                 width: 8,
               ),
-              Text(
+              const Text(
                 "Entrou em jan/23",
                 style: TextStyle(
                   fontSize: 12,
@@ -244,6 +261,308 @@ class MyAppState extends State<MyApp> with SingleTickerProviderStateMixin {
   }
 
   Widget _buildInfoScreensTab() {
-    return const Text("Primeira guia selecionada");
+    return Container(
+      margin: const EdgeInsets.all(15),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AboutTab(),
+          const SizedBox(
+            height: 15,
+          ),
+          const Text(
+            "Horário de Atendimento",
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+              fontSize: 16,
+            ),
+          ),
+         Container(
+           margin: const EdgeInsets.all(15),
+            child: const Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Segunda-feira",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "_______________",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "09:00",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "às",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "17:00",
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(15),
+            child: const Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Terça-feira",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "__________________",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "09:00",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "às",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "17:00",
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(15),
+            child: const Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Quarta-feira",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "_________________",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "09:00",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "às",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "17:00",
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(15),
+            child: const Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Quinta-feira",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "_________________",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "09:00",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "às",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "17:00",
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(15),
+            child: const Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Sexta-Feira",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "_________________",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "09:00",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "às",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "17:00",
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(15),
+            child: const Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Sábado",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "____________________",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "09:00",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "às",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "17:00",
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            margin: const EdgeInsets.all(15),
+            child: const Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Domingo",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "___________________",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "09:00",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "às",
+                  style: TextStyle(color: Colors.grey),
+                ),
+                SizedBox(
+                  width: 8,
+                ),
+                Text(
+                  "17:00",
+                  style: TextStyle(color: Colors.grey),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildAtividadeScreensTab() {
+    return const Text("Guia de Atividades selecionada");
   }
 }
